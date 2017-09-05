@@ -5,5 +5,9 @@
   "main": "app.js",
   "author": {
     "name": "wilsoadmin"
+  },
+  "dependencies": {
+    "@types/node": "^8.0.26",
+    "emailjs": "^1.0.12"
   }
 }
