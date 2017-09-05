@@ -1,0 +1,9 @@
+{
+  "name": "power-check",
+  "version": "0.0.0",
+  "description": "PowerCheck",
+  "main": "app.js",
+  "author": {
+    "name": "wilsoadmin"
+  }
+}
