@@ -1,14 +1,13 @@
 ﻿
 const os = require('os');
 const events = require('events'); 
-const emailjs = require('emailjs');
+import { SMTPClient } from 'emailjs';
 import Server from './Server';
 import Config from './Config';
 
 const config:Config = require('./config.json');
 
 var power = {acPower:null, lastChange:null, changes:[]}
-
 
 var server = new Server(8732, config, (req, res) => {
     res.statusCode = 200;
@@ -51,19 +50,19 @@ setInterval(() => {
 }, 1000);
 
 function powerEvent() {
-    var msg = (power.acPower ? 'AC power restored at ' : 'AC power lost at ') + power.lastChange;
-    console.log(msg);
+    var msg = (power.acPower ? 'AC power restored at ' : 'AC power lost at ') + power.lastChange;    
     power.changes.push(msg);
     sendEmail(msg);
 }
 
 function sendEmail(msg) {
-    try {
-
-        var mailsrv = emailjs.server.connect({
+    try { 
+        const client = new SMTPClient({       
+            user: config.smtpUser,
+            password: config.smtpPswd,    
             host: config.smtpServer,
-            ssl: false
-        });
+            ssl: true,
+        }); 
 
         var message = {
             text: msg,
@@ -73,8 +72,8 @@ function sendEmail(msg) {
         }
          
 
-        mailsrv.send(message, (err, msg) => {
-            //console.log(err || msg);
+        client.send(message, (err, msg) => {
+            console.log(err || msg);
         });
     }
     catch (e) {

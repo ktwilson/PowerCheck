@@ -4,4 +4,6 @@
     emailFrom: string;
     emailTo: string;
     smtpServer: string;
+    smtpUser:string;
+    smtpPswd:string;
 }
